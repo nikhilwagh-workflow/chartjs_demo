@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+    <title>Investment vs Returns Chart</title>
+    <script src="./Chart.bundle.js"></script>
+    <script src="./utils.js"></script>
+    <style>
+    canvas {
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="container" style="width: 75%;">
+        <canvas id="canvas"></canvas>
+    </div> 
+
+    <script>
+		//Code developed by Nikhil Wagh
+        var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var color = Chart.helpers.color;
+        var horizontalBarChartData = {
+            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            datasets: [{
+                label: 'Investment',
+                backgroundColor: color(window.chartColors.red).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.red,
+                borderWidth: 1,
+                data: ['4600','8500','6500','9800','2500','500','12000']
+            }, {
+                label: 'Returns',
+                backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                borderColor: window.chartColors.blue,
+                data: ['500','2000','1600','2300','700','50','3000']
+            }]
+
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myHorizontalBar = new Chart(ctx, {
+                type: 'horizontalBar',
+                data: horizontalBarChartData,
+                options: {
+                    // Elements options apply to all of the options unless overridden in a dataset
+                    // In this case, we are setting the border of each horizontal bar to be 2px wide
+                    elements: {
+                        rectangle: {
+                            borderWidth: 2,
+                        }
+                    },
+                    responsive: true,
+                    legend: {
+                        position: 'right',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Monthly Returns on Investment Chart'
+                    },
+					scales: {
+					xAxes: [{
+						ticks: {
+							beginAtZero:true,
+							fontFamily: "'Open Sans Bold', sans-serif",
+							fontSize:11
+						},
+						scaleLabel:{
+							display:false
+						},
+						gridLines: {
+						}, 
+						stacked: true
+					}],
+					yAxes: [{
+						gridLines: {
+							display:false,
+							color: "#fff",
+							zeroLineColor: "#fff",
+							zeroLineWidth: 0
+						},
+						ticks: {
+							fontFamily: "'Open Sans Bold', sans-serif",
+							fontSize:11
+						},
+						stacked: true
+					}]
+					},
+					  hover :{
+					animationDuration:0
+					},
+					        tooltips: {
+						callbacks: {
+							label: function(tooltipItem, data) {
+								var allData = data.datasets[tooltipItem.datasetIndex].data;
+								var tooltipData = allData[tooltipItem.index];							
+								return ' $ ' + tooltipData;
+							}
+						}
+                }
+				}
+            });
+
+        };    
+
+    </script>
+</body>
+
+</html>
